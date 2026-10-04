@@ -1,13 +1,16 @@
 # NBA Market Intelligence
 
-本项目整理自本次 **Week 1 NBA 英文市场研究报告**，可离线重生成四页 PDF、
-独立扇形图和分析数据。附带的报告、数据和图表均可直接使用。
+This project accompanies the **Week 1 NBA Market Research Report** in English. The complete project can regenerate a four-page PDF, standalone pie charts, and analytical datasets offline.
+
+## Repository contents
+
+This repository currently contains the five top-level project files: `.gitignore`, `config.py`, `main.py`, `README.md`, and `requirements.txt`. The `src/`, `data/`, `outputs/`, and `prompts/` directories shown below belong to the complete local project and have not yet been uploaded. Running the pipeline requires `src/` and the input files in `data/raw/`.
 
 ## Quick start
 
-需要 Python 3.10 或以上版本。在项目目录打开终端：
+Requires Python 3.10 or later and the complete project files. Open a terminal in the project directory:
 
-```bash
+```powershell
 python -m venv .venv
 # Windows PowerShell
 .venv\Scripts\Activate.ps1
@@ -15,10 +18,9 @@ python -m pip install -r requirements.txt
 python main.py
 ```
 
-也可以直接运行 `.venv\Scripts\python.exe main.py`，不必激活环境。
-运行不需要 API key、网络或本机绝对路径；路径相对于项目所在目录。
+You can also run `.venv\Scripts\python.exe main.py` without activating the environment. After installing the dependencies, the pipeline requires no API key or network connection. All paths are relative to the project directory.
 
-## Project structure
+## Complete project structure
 
 ```text
 nba-market-intelligence/
@@ -58,46 +60,36 @@ nba-market-intelligence/
     └── analysis.txt
 ```
 
-## 模块职责
+## Module responsibilities
 
-| 模块 | 已实现功能 |
+| Module | Implemented functionality |
 | --- | --- |
-| planner.py | 从研究简要生成固定的 Week 1 工作计划 |
-| search.py | 读取、按关键词查询本地来源目录 |
-| extractor.py | 校验字段、单位、数值、来源和期间，整理事实记录 |
-| analysis.py | 计算媒体合同年均值、赞助增速、球队倍数及示意分布 |
-| charts.py | 导出带来源标注的 SVG、PDF 图表，并绘制报告内图表 |
-| report.py | 使用已确认的英文版式、处理后数值和来源生成 PDF |
+| planner.py | Creates the fixed Week 1 work plan from the research brief |
+| search.py | Loads the local source catalog and searches it by keyword |
+| extractor.py | Validates fields, units, values, sources, and periods, then organizes factual records |
+| analysis.py | Calculates annual average media contract value, sponsorship growth, team revenue ratios, and an illustrative distribution |
+| charts.py | Exports SVG and PDF charts with source annotations and draws charts within the report |
+| report.py | Generates the PDF using the established English layout, processed values, and sources |
 
-`search.py` 是本地来源检索，不调用网络搜索引擎；`extractor.py` 读取人工整理的
-结构化证据，不抓取网页。`prompts/` 是未来接入模型时的模板，本次运行不会调用模型。
-未配置自动联网采集、付费数据库访问或实时刷新。
+`search.py` searches local sources and does not call an online search engine. `extractor.py` reads manually curated structured evidence and does not scrape websites. The files in `prompts/` are templates for future model integration; the current pipeline does not call a model. Automated online collection, paid database access, and real-time refresh are not configured.
 
-## 数据来源和口径
+## Data sources and measurement definitions
 
-`data/raw/` 指保留的人工整理事实与来源目录，并非下载的出版商原始数据库或网页快照。
-数据来自原对话及生成 PDF 时核对的公开资料。`sources.json` 保留链接、用途和核对日期。
-所有事实包含数值、单位、期间、证据状态与来源编号。
+`data/raw/` contains manually curated facts and a source catalog, rather than downloaded publisher databases or webpage snapshots. The data comes from the original research discussion and public materials checked during PDF preparation. `sources.json` records links, their purpose, and verification dates. Each fact includes a value, unit, period, evidence status, and source identifier.
 
-- 年收入：2024-25 NBA 30 队收入合计约 $12.5B。
-- 球队估值：2025 Forbes 估值周期；估值与年收入不能混加。
-- $77B 是媒体报道的合同金额；$7B 是 11 年合同的年均值。
-- 赞助采用第三方估计；NBA 观众与观看次数属于不同口径。
-- 饼图保留原报告的 56.0%、20.0%、14.4%、9.6%，明确标为跨赛季示意。
-  门票为假设，其他为算术残差，**不能作为实际 NBA 收入结构**。
+- Annual revenue: approximately $12.5B in combined revenue for all 30 NBA teams in 2024–25.
+- Team valuations: the 2025 Forbes valuation cycle. Valuations and annual revenue must not be added together.
+- $77B is the contract value reported by the media; $7B is its annual average over the 11-year term.
+- Sponsorship figures are third-party estimates. Audience counts and viewing counts use different measurement definitions.
+- The pie chart retains the original report's shares of 56.0%, 20.0%, 14.4%, and 9.6% and is explicitly labeled as an illustration combining different seasons. Ticket revenue is an assumption, and the other category is an arithmetic residual. **These shares do not represent the NBA's actual revenue composition.**
 
-## 更新与复现
+## Updating and reproducing the results
 
-修改 `data/raw/evidence.json` 后运行 `python main.py`，处理数据、计算、图表和报告数值
-会更新。报告保留固定的 Week 1 叙述、赛季文字与结论；若研究期间、来源或判断改变，
-应同步审阅 `src/report.py` 和 `data/raw/sources.json`，尤其是图表口径。
-数值更新不等于报告自动完成研究或自动确认结论。
+In the complete project, edit `data/raw/evidence.json` and run `python main.py` to update the processed data, calculations, charts, and numerical values in the report. The report retains fixed Week 1 narrative, season references, and conclusions. If the research period, sources, or interpretation changes, review `src/report.py` and `data/raw/sources.json` as well, especially the chart definitions. Updating numerical values does not automatically perform new research or validate the conclusions.
 
-`config.py` 控制路径和整理日期。执行时会覆盖本项目的处理数据、图表及 PDF。
-结构校验包含四页页数、文本可提取性、必需指标、单位和来源关联。
-本次交付另已渲染并人工检查 PDF 和图表；后续修改内容后应再次做视觉检查。
+`config.py` controls paths and the preparation date. Running the pipeline overwrites the project's processed datasets, charts, and PDF. Structural checks cover the four-page count, extractable text, required metrics, units, and source associations. The original local deliverables were also rendered and visually reviewed. Repeat the visual review after changing the content.
 
-## 计算示例
+## Calculation examples
 
 ```text
 Media annual average = 77 / 11 = 7.0 (USD billion)
@@ -106,4 +98,4 @@ Lakers / Hornets revenue = 551 / 328 = 1.68x
 Illustrative residual = 12.5 - 7.0 - 2.5 - 1.8 = 1.2
 ```
 
-图表使用 ReportLab 与标准库生成，无需系统字体、LaTeX、Poppler 或绘图库。
+Charts are generated with ReportLab and the Python standard library, without requiring system fonts, LaTeX, Poppler, or a separate plotting library.
